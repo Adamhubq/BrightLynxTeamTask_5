@@ -1,0 +1,96 @@
+<form
+        id="app"
+        @submit="checkForm"
+        action="/pushData/"
+        method="post"
+>
+    <div v-if="flag">
+        <p v-if="errors.length">
+            <b>Пожалуйста исправьте указанные ошибки:</b>
+        <ul>
+            <li v-for="error in errors">{{ error }}</li>
+        </ul>
+        </p>
+        <p>
+            <label for="name">Имя</label>
+            <input
+                    id="name"
+                    v-model="name"
+                    type="text"
+                    name="name"
+            >
+        </p>
+        <p>
+            <label for="login">Логин</label>
+            <input
+                    id="login"
+                    v-model="login"
+                    type="text"
+                    name="login"
+            >
+        </p>
+        <p>
+            <label for="pass">Пароль</label>
+            <input
+                    id="pass"
+                    v-model="pass"
+                    type="password"
+                    name="pass"
+            >
+        </p>
+        <p>
+            <label for="passValid">Подтверждение пароля</label>
+            <input
+                    id="passValid"
+                    v-model="passValid"
+                    type="password"
+                    name="passValid"
+            >
+        </p>
+        <p>
+            <input
+                    type="submit"
+                    value="Отправить"
+            >
+        </p>
+
+    </div>
+    <p v-else>
+        Вы авторизованы)
+    </p>
+
+</form>
+<script>
+    const app = new Vue({
+        el: '#app',
+        data: {
+            errors: [],
+            name: null,
+            login: null,
+            pass: null,
+            passValid: null,
+            flag: !sessionStorage['userName']
+        },
+        methods: {
+            checkForm: function (e) {
+                if (this.name && this.login && this.pass && this.passValid) {
+                    return true;
+                }
+                this.errors = [];
+                if (!this.name) {
+                    this.errors.push('Требуется указать имя.');
+                }
+                if (!this.login) {
+                    this.errors.push('Требуется указать логин.');
+                }
+                if (!this.pass) {
+                    this.errors.push('Требуется указать пароль.');
+                }
+                if (!this.passValid || (this.passValid == this.pass)) {
+                    this.errors.push('Неверное подтверждение пароля');
+                }
+                e.preventDefault();
+            }
+        }
+    })
+</script>

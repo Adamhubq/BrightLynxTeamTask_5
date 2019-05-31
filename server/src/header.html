@@ -1,0 +1,50 @@
+<script src="http://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+<!-- navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light" id="menu">
+    <a class="navbar-brand" href="/">Главная</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item" v-bind:class="link == greatTab ? 'active' : ''">
+                <a class="nav-link" href="/">Главная</a>
+            </li>
+            <li class="nav-item" v-bind:class="link == tabUser ? 'active' : ''">
+                <a class="nav-link" href="/tab-user/">Список пользователей</a>
+            </li>
+            <div v-if="!flag">
+                <li class="nav-item" v-bind:class="link == registration ? 'active' : ''">
+                    <a class="nav-link" href="/registration/">Регистрация</a>
+                </li>
+                <li class="nav-item" v-bind:class="link == autorizate ? 'active' : ''">
+                    <a class="nav-link" href="/avtorizate/">Авторизация</a>
+                </li>
+            </div>
+            <div v-else>
+                <form action="/exit/">
+                    <input class="nav-item nostyle"
+                            type="submit"
+                            value="Выйти"
+                    >
+                </form>
+            </div>
+        </ul>
+    </div>
+</nav>
+<script>
+    let menu = new Vue({
+        el:'#menu',
+        data: {
+            link: location.pathname,
+            autorizate: '/avtorizate/',
+            registration: '/registration/',
+            tabUser: '/tab-user/',
+            greatTab: '/',
+            flag: !!sessionStorage['userName'] && sessionStorage['userName'].length > 1
+        }
+    })
+</script>
